@@ -10,4 +10,4 @@ class CityRepository extends BaseRepository
         $this->tableName = 'cities';
     }
 }
-?>
+
