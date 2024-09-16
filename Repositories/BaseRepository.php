@@ -15,5 +15,16 @@ class BaseRepository extends DB
     {
         return "SELECT * FROM `{$this->tableName}` ";
     }
+
+    public function find(int $id):array
+    {
+        $query = $this->select() . "WHERE id = $id";
+        $result = $this->mysqli->query($query)->fetch_assoc();
+        if (!$result) {
+            $result = [];
+        }
+
+        return $result;
+    }
 }
 ?>
