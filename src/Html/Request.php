@@ -89,6 +89,23 @@ class Request
         }
         return;
     }
+    private static function postRequest()
+    {
+        $resourceName = self::getResourceName();
+        switch ($resourceName) {
+            case 'counties':
+                $data = self::getRequestData();
+                if (isset($data['name'])) {
+                    $db = new CountyRepository();
+                    $newId = $db->post($data);
+                    $code = 201;
+                    if (!$newId) {
+                        $code = 400;
+                    }
+                }
+        }
+
+    }
  
  
     //szétdarabolja és ha az utolsó szám akkor az utolsó előttit adja vissza
@@ -112,7 +129,11 @@ class Request
         }
         return false;
     }
- 
+    
+    private static function getRequestData():?array
+    {
+        return json_decode(file_get_contents("php://input"), true);
+    }
  
  
 }
