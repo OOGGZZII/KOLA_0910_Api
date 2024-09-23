@@ -62,7 +62,23 @@ class BaseRepository extends DB
         
         $lastInserted = $this->mysqli->query("SELECT LAST_INSERT_ID() id;")->fetch_assoc();
 
-        return $lastInserted;
+        return $lastInserted['id'];
+    }
+
+    public function put(array $data, int $id):?int
+    {
+        $sql = "UPDATE `%s` SET %s WHERE id = $id;";
+        $pairs = "";
+        foreach ($data as $field => $value)
+        {
+            if ($pairs > '') {
+                $pairs .= ", $field = '$value'";
+            }else
+                $pairs .= "$field = '$value'";
+        }
+        $sql = sprintf($sql, $this->tableName, $pairs);
+        $this->mysqli->query($sql);
+        return $id;
     }
 }
 ?>

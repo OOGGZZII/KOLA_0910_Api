@@ -9,15 +9,15 @@ class Request
     static function handle()
     {
         switch ($_SERVER["REQUEST_METHOD"]) {
-            // case "POST":
-            //     self::postRequest();
-            //     break;
+            case "POST":
+                self::postRequest();
+                break;
             case "GET":
                 self::getRequest();
                 break;
-            // case "PUT":
-            //     self::putRequest();
-            //     break;
+            case "PUT":
+                self::putRequest();
+                break;
             case "DELETE":
                 self::deleteRequest();
                 break;
@@ -105,6 +105,23 @@ class Request
                 }
         }
 
+    }
+    private static function putRequest()
+    {
+        $resourceName = self::getResourceName();
+        switch ($resourceName) {
+            case 'counties':
+                $id = self::getResourceId();
+                $data = self::getRequestData();
+                if (isset($data['name'])) {
+                    $db = new CountyRepository();
+                    $newId = $db->put($data, $id);
+                    $code = 201;
+                    if (!$newId) {
+                        $code = 400;
+                    }
+                }
+        }
     }
  
  
