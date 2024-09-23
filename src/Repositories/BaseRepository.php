@@ -27,5 +27,15 @@ class BaseRepository extends DB
 
         return $result;
     }
+
+    public function delete(int $id)
+    {
+        $query = "DELETE * FROM `{$this->tableName}` WHERE id = $id;";
+        $result = $this->mysqli->query($query)->fetch_assoc();
+        if (!$result) {
+            $result = [];
+        }
+        return $result;
+    }
 }
 ?>
