@@ -68,15 +68,15 @@ class BaseRepository extends DB
     public function put(array $data, int $id):?int
     {
         $sql = "UPDATE `%s` SET %s WHERE id = $id;";
-        $pairs = "";
+        $set = "";
         foreach ($data as $field => $value)
         {
-            if ($pairs > '') {
-                $pairs .= ", $field = '$value'";
+            if ($set > '') {
+                $set .= ", $field = '$value'";
             }else
-                $pairs .= "$field = '$value'";
+                $set .= "$field = '$value'";
         }
-        $sql = sprintf($sql, $this->tableName, $pairs);
+        $sql = sprintf($sql, $this->tableName, $set);
         $this->mysqli->query($sql);
         return $id;
     }
