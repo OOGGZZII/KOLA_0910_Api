@@ -54,7 +54,8 @@ class Request
                 if ($id) {
                     $entities = $repository->find($id);
                 } else {
-                    $entities = $repository->getAll();
+                    $countyId = self::getCountyId();
+                    $entities = $repository->getAllCities($countyId);
                 }
  
                 $code = 200;
@@ -62,6 +63,7 @@ class Request
                     $code = 404;
                 }
                 Response::response($entities, $code);
+                break;
             default:
                 Response::response([], 404, "$uri not found");
  
@@ -135,7 +137,12 @@ class Request
         }
         return $last;
     }
- 
+    private static function getCountyId()
+    {
+        $arrUri = explode("/", $_SERVER['REQUEST_URI']);
+        $last = $arrUri[count($arrUri) - 2];
+        return $last;
+    }
     private static function getResourceId()
     {
         // $arrUri = self::getArrUri($_SERVER('REQUEST.URI'));

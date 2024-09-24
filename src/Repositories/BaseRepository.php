@@ -6,7 +6,15 @@ class BaseRepository extends DB
 {
     protected string $tableName;
 
-    
+    public function getAllCities(int $id):array{
+        $query = $this->select() . "WHERE id_county = $id;";
+        $result = $this->mysqli->query($query)->fetch_all(MYSQLI_ASSOC);
+        if (!$result) {
+            $result = [];
+        }
+
+        return $result;
+    }
     public function getAll(): array
     {
         $query = $this->select();
